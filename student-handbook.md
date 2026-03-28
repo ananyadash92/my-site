@@ -431,38 +431,69 @@ _Lunch — 40 min_
 ### 3A: Add Intake Mode to the Chatbot (20 min)
 
 ```
-Upgrade the chatbot in api/chat.js to support two modes:
+Add a "Get Proposal" flow as a second widget alongside your chatbot.
 
-MODE 1 — Q&A (existing):
-Same as before. Answers questions about my services in my voice.
+ARCHITECTURE — Two separate widgets, not one widget with two modes:
 
-MODE 2 — INTAKE (new):
-When a visitor expresses interest or need ("I need help with...",
-"Can you help me...", "I'm looking for..."), the chatbot transitions
-to intake mode and gathers requirements conversationally:
+WIDGET 1 — Q&A Chat (existing):
+Same as before. No changes. Pure Q&A in your voice.
 
-1. What does your company do? (industry, size, stage)
-2. What's the challenge you're facing?
-3. What have you tried so far?
-4. What would success look like?
-5. What's your budget range?
-6. What's your email? (asked last)
+WIDGET 2 — Proposal Intake (new):
+A separate widget dedicated to gathering requirements. It has its own
+button, its own window, its own conversation history.
 
-The chatbot should:
-- Ask ONE question at a time, conversationally (not a form)
-- Acknowledge each answer naturally before asking the next
-- Use my voice throughout
+FRONTEND — Two launcher buttons stacked bottom-right:
+- "Ask me anything" (primary) → opens the Q&A chat widget
+- "Get Proposal" (secondary) → opens the proposal widget
+- Clicking one hides the launchers and opens that widget
+- Closing the widget brings the launchers back
+- Each widget is fully independent — separate UI, separate history
+
+PROPOSAL WIDGET specifics:
+- Has a progress bar always visible (step X of 6)
+- Auto-starts the intake conversation when first opened
+- The header says "Get a Proposal" (visually distinct from Q&A)
+- Gathers these 6 things, ONE question at a time:
+  1. What does your company do? (industry, size, stage)
+  2. What's the challenge you're facing?
+  3. What have you tried so far?
+  4. What would success look like?
+  5. What's your budget range?
+  6. What's your email? (asked last)
+     - If the email looks invalid, ask again naturally — don't move on
+- The chatbot should acknowledge each answer naturally before the next
+- Use your voice throughout — not a form, a conversation
 - After getting the email, say: "Perfect — I'll put together a proposal
   tailored to your situation. You'll have it in your inbox shortly."
 
-The conversation history must be maintained across messages (pass full
-history on each API call). When intake completes, the frontend should
-POST the full conversation + structured data to /api/generate-proposal.
+API ARCHITECTURE:
+- api/chat.js handles both widgets (system prompt supports Q&A and intake)
+- The proposal widget sends "I'd like to get a proposal." as its first
+  message — this triggers intake mode in the system prompt
+- api/chat.js parses hidden markers from the LLM response:
+  - <INTAKE_STEP>N</INTAKE_STEP> — stripped, returned as intake_step: N
+  - <INTAKE_COMPLETE>{"company":...}</INTAKE_COMPLETE> — stripped,
+    returned as intake_complete: true with structured intake_data
+- Q&A responses have no markers — just { reply }
+- Create api/generate-proposal.js as a stub endpoint that receives
+  and logs the structured intake data + full conversation
 
-Update both api/chat.js and the frontend chat widget.
+STEP MARKER RULES (critical for progress bar):
+The marker number matches the question being ASKED in that message:
+- Opening message asks Q1 → <INTAKE_STEP>1</INTAKE_STEP>
+- Acknowledges Q1 answer, asks Q2 → <INTAKE_STEP>2</INTAKE_STEP>
+- Acknowledges Q2 answer, asks Q3 → <INTAKE_STEP>3</INTAKE_STEP>
+- Acknowledges Q3 answer, asks Q4 → <INTAKE_STEP>4</INTAKE_STEP>
+- Acknowledges Q4 answer, asks Q5 → <INTAKE_STEP>5</INTAKE_STEP>
+- Acknowledges Q5 answer, asks Q6 → <INTAKE_STEP>6</INTAKE_STEP>
+- If email is invalid, ask again → <INTAKE_STEP>6</INTAKE_STEP> (stays on 6)
+- After collecting valid email → <INTAKE_COMPLETE>{...}</INTAKE_COMPLETE>
+Every intake response must include exactly one marker. Never omit it.
+
+Update api/chat.js, the frontend, and styles.
 ```
 
-Test the intake flow: open the chat, say "I need help with my marketing strategy" and walk through the questions.
+Test the intake flow: click "Get Proposal", watch it auto-start, and walk through all 6 questions. Verify the progress bar advances on each step.
 
 ### 3B: Build the Agentic Proposal Engine (20 min)
 
@@ -543,8 +574,15 @@ Two services need API keys. Add them to your `.env` file in `my-site/`.
 **Resend (email sending):**
 
 1. Go to [resend.com](https://resend.com) → sign up → create API key
-2. On the free tier, use the default `onboarding@resend.dev` sender (can send to your own email)
-3. Add to your `.env` file: `RESEND_API_KEY=re_your_key_here`
+2. Add to your `.env` file: `RESEND_API_KEY=re_your_key_here`
+
+> ⚠️ **Resend free tier limitation — read this now, not later.**
+>
+> Without a verified custom domain, Resend only lets you send emails **to the email address you signed up with**. Not to friends, not to test accounts — only to yourself. This is a Resend sandbox restriction, not a bug in your code.
+>
+> **What this means for today:** When testing the proposal flow, use your Resend sign-up email as the "visitor" email. You'll receive your own proposal — that's the expected behavior on the free tier.
+>
+> The sender will show as `onboarding@resend.dev` — that's also normal.
 
 **Telegram alerts (reuse Day 1 bot):**
 
@@ -560,7 +598,7 @@ TELEGRAM_BOT_TOKEN=...
 TELEGRAM_CHAT_ID=...
 ```
 
-> **All services are free tier.** Resend free tier handles 100 emails/day. More than enough for your AI sales agent.
+> **All services are free tier.** Resend free tier: 100 emails/day, but only to your own email (see note above).
 
 ### 3D: Test Everything Locally (10 min)
 
@@ -590,7 +628,7 @@ Now test the full agent loop at **http://localhost:3000**:
 1. Click the chat bubble
 2. Say: "I need help with my GTM strategy"
 3. Answer the intake questions naturally
-4. Provide your email address (use the email you signed up with on Resend — free tier only sends to your own email)
+4. Provide your email address — **use the email you signed up with on Resend** (remember: free tier only sends to yourself)
 5. Wait 30 seconds
 
 **Three things should happen:**
@@ -612,7 +650,7 @@ Agent pipeline complete: { proposal: true, email: true, alerted: true }
 
 - Check the terminal for error messages — they'll tell you exactly which step failed
 - Missing env var → check your `.env` file
-- Email not arriving → check Resend dashboard; free tier only sends to your own email
+- Email not arriving → **most common cause:** you entered an email that isn't your Resend sign-up email. Free tier only delivers to yourself. Check the Resend dashboard for bounced/blocked sends
 - Telegram not working → verify your bot token and chat ID from Day 1
 - PDF generation error mentioning "cannot encode" → the AI-generated proposal has special characters (like ₹) that pdf-lib's standard fonts can't render. Tell Claude: "The PDF crashed on a special character. Add text sanitization to handle non-ASCII characters before rendering."
 
@@ -1107,6 +1145,23 @@ With Day 1, today produced a **personal sales agent that speaks in your voice, q
 | 4   | RFP / Contracts / Artifacts       | Proposal PDFs — personalized per client               |
 | 5   | Report generation                 | Branded proposal PDFs — different for every client    |
 | 6   | Lead scoring & alerts             | Claude scores leads, Telegram alerts your phone       |
+
+---
+
+## Taking It Live — Beyond the Bootcamp
+
+Everything today was built on free tiers — perfect for learning and testing. If you're planning to use this as a real sales agent for your business, one thing needs upgrading: **email**.
+
+**Why:** Resend's free tier only lets you send to yourself (sandbox mode). Real visitors need to receive proposals at *their* email. That requires a verified custom domain.
+
+**What to do:**
+
+1. **Upgrade Resend** — the Pro plan ($20/month) gives you 5,000 emails/month and full analytics
+2. **Verify your domain** — add your business domain (e.g., `yourdomain.com`) in Resend dashboard → add 3 DNS records (SPF, DKIM, DMARC) → takes ~5 minutes
+3. **Update your sender** — change `onboarding@resend.dev` to something like `proposals@yourdomain.com` in your agent code
+4. **Update `.env` on Vercel** — swap in your new Resend API key
+
+> Once your domain is verified, proposals go to any email address. That's when the agent actually starts working for you.
 
 ---
 

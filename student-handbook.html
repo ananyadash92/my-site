@@ -384,10 +384,10 @@ Tell me if anything is missing or too thin for building a website and chatbot to
 <h2 id="getting-started">Getting Started</h2>
 <p>Open your terminal, clone the Day 2 repo, and go inside it:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/thecrux-bootcamp</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/thecrux-ai/cohort-2-day-2</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> cohort-2-day-2</span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/thecrux-ai/ccfl-3-day-2</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ccfl-3-day-2</span></code></pre></div>
 <p>Copy your CLAUDE.md from Day 1 — it’s the foundation for everything today:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ~/thecrux-bootcamp/cohort-2-day-1/CLAUDE.md .</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ~/thecrux-bootcamp/ccfl-3-day-1/CLAUDE.md .</span></code></pre></div>
 <p>Start Claude:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span></span></code></pre></div>
 <blockquote>
@@ -632,36 +632,67 @@ Tested on mobile (use your local IP, e.g. <code>http://192.168.x.x:3000</code>)
 <p><strong>What you’re building:</strong> The chatbot gains a second mode — it gathers requirements, generates a personalized proposal PDF, emails it to the visitor, and alerts you on Telegram.</p>
 <p><strong>Day 1 artifacts used:</strong> CLAUDE.md (voice + services + lead scoring), Telegram bot (owner alerts)</p>
 <h3 id="a-add-intake-mode-to-the-chatbot-20-min">3A: Add Intake Mode to the Chatbot (20 min)</h3>
-<pre><code>Upgrade the chatbot in api/chat.js to support two modes:
+<pre><code>Add a &quot;Get Proposal&quot; flow as a second widget alongside your chatbot.
 
-MODE 1 — Q&amp;A (existing):
-Same as before. Answers questions about my services in my voice.
+ARCHITECTURE — Two separate widgets, not one widget with two modes:
 
-MODE 2 — INTAKE (new):
-When a visitor expresses interest or need (&quot;I need help with...&quot;,
-&quot;Can you help me...&quot;, &quot;I&#39;m looking for...&quot;), the chatbot transitions
-to intake mode and gathers requirements conversationally:
+WIDGET 1 — Q&amp;A Chat (existing):
+Same as before. No changes. Pure Q&amp;A in your voice.
 
-1. What does your company do? (industry, size, stage)
-2. What&#39;s the challenge you&#39;re facing?
-3. What have you tried so far?
-4. What would success look like?
-5. What&#39;s your budget range?
-6. What&#39;s your email? (asked last)
+WIDGET 2 — Proposal Intake (new):
+A separate widget dedicated to gathering requirements. It has its own
+button, its own window, its own conversation history.
 
-The chatbot should:
-- Ask ONE question at a time, conversationally (not a form)
-- Acknowledge each answer naturally before asking the next
-- Use my voice throughout
+FRONTEND — Two launcher buttons stacked bottom-right:
+- &quot;Ask me anything&quot; (primary) → opens the Q&amp;A chat widget
+- &quot;Get Proposal&quot; (secondary) → opens the proposal widget
+- Clicking one hides the launchers and opens that widget
+- Closing the widget brings the launchers back
+- Each widget is fully independent — separate UI, separate history
+
+PROPOSAL WIDGET specifics:
+- Has a progress bar always visible (step X of 6)
+- Auto-starts the intake conversation when first opened
+- The header says &quot;Get a Proposal&quot; (visually distinct from Q&amp;A)
+- Gathers these 6 things, ONE question at a time:
+  1. What does your company do? (industry, size, stage)
+  2. What&#39;s the challenge you&#39;re facing?
+  3. What have you tried so far?
+  4. What would success look like?
+  5. What&#39;s your budget range?
+  6. What&#39;s your email? (asked last)
+     - If the email looks invalid, ask again naturally — don&#39;t move on
+- The chatbot should acknowledge each answer naturally before the next
+- Use your voice throughout — not a form, a conversation
 - After getting the email, say: &quot;Perfect — I&#39;ll put together a proposal
   tailored to your situation. You&#39;ll have it in your inbox shortly.&quot;
 
-The conversation history must be maintained across messages (pass full
-history on each API call). When intake completes, the frontend should
-POST the full conversation + structured data to /api/generate-proposal.
+API ARCHITECTURE:
+- api/chat.js handles both widgets (system prompt supports Q&amp;A and intake)
+- The proposal widget sends &quot;I&#39;d like to get a proposal.&quot; as its first
+  message — this triggers intake mode in the system prompt
+- api/chat.js parses hidden markers from the LLM response:
+  - &lt;INTAKE_STEP&gt;N&lt;/INTAKE_STEP&gt; — stripped, returned as intake_step: N
+  - &lt;INTAKE_COMPLETE&gt;{&quot;company&quot;:...}&lt;/INTAKE_COMPLETE&gt; — stripped,
+    returned as intake_complete: true with structured intake_data
+- Q&amp;A responses have no markers — just { reply }
+- Create api/generate-proposal.js as a stub endpoint that receives
+  and logs the structured intake data + full conversation
 
-Update both api/chat.js and the frontend chat widget.</code></pre>
-<p>Test the intake flow: open the chat, say “I need help with my marketing strategy” and walk through the questions.</p>
+STEP MARKER RULES (critical for progress bar):
+The marker number matches the question being ASKED in that message:
+- Opening message asks Q1 → &lt;INTAKE_STEP&gt;1&lt;/INTAKE_STEP&gt;
+- Acknowledges Q1 answer, asks Q2 → &lt;INTAKE_STEP&gt;2&lt;/INTAKE_STEP&gt;
+- Acknowledges Q2 answer, asks Q3 → &lt;INTAKE_STEP&gt;3&lt;/INTAKE_STEP&gt;
+- Acknowledges Q3 answer, asks Q4 → &lt;INTAKE_STEP&gt;4&lt;/INTAKE_STEP&gt;
+- Acknowledges Q4 answer, asks Q5 → &lt;INTAKE_STEP&gt;5&lt;/INTAKE_STEP&gt;
+- Acknowledges Q5 answer, asks Q6 → &lt;INTAKE_STEP&gt;6&lt;/INTAKE_STEP&gt;
+- If email is invalid, ask again → &lt;INTAKE_STEP&gt;6&lt;/INTAKE_STEP&gt; (stays on 6)
+- After collecting valid email → &lt;INTAKE_COMPLETE&gt;{...}&lt;/INTAKE_COMPLETE&gt;
+Every intake response must include exactly one marker. Never omit it.
+
+Update api/chat.js, the frontend, and styles.</code></pre>
+<p>Test the intake flow: click “Get Proposal”, watch it auto-start, and walk through all 6 questions. Verify the progress bar advances on each step.</p>
 <h3 id="b-build-the-agentic-proposal-engine-20-min">3B: Build the Agentic Proposal Engine (20 min)</h3>
 <p>This is where your chatbot becomes an <strong>agent</strong>. Instead of hardcoding every step (“first do this, then do that”), you give Claude a set of <strong>tools</strong> and let it decide the flow.</p>
 <p>Think about it: in Steps 1-2, you told Claude what to write. Now you’re telling Claude what it can <strong>do</strong> — and letting it figure out the rest.</p>
@@ -717,9 +748,14 @@ sanitizeForPdf function. Only change the [CUSTOMIZE] parts.</code></pre>
 <p><strong>Resend (email sending):</strong></p>
 <ol type="1">
 <li>Go to <a href="https://resend.com">resend.com</a> → sign up → create API key</li>
-<li>On the free tier, use the default <code>onboarding@resend.dev</code> sender (can send to your own email)</li>
 <li>Add to your <code>.env</code> file: <code>RESEND_API_KEY=re_your_key_here</code></li>
 </ol>
+<blockquote>
+<p>⚠️ <strong>Resend free tier limitation — read this now, not later.</strong></p>
+<p>Without a verified custom domain, Resend only lets you send emails <strong>to the email address you signed up with</strong>. Not to friends, not to test accounts — only to yourself. This is a Resend sandbox restriction, not a bug in your code.</p>
+<p><strong>What this means for today:</strong> When testing the proposal flow, use your Resend sign-up email as the “visitor” email. You’ll receive your own proposal — that’s the expected behavior on the free tier.</p>
+<p>The sender will show as <code>onboarding@resend.dev</code> — that’s also normal.</p>
+</blockquote>
 <p><strong>Telegram alerts (reuse Day 1 bot):</strong></p>
 <ul>
 <li>You already have <code>TELEGRAM_BOT_TOKEN</code> and <code>TELEGRAM_CHAT_ID</code> from yesterday</li>
@@ -731,7 +767,7 @@ RESEND_API_KEY=...
 TELEGRAM_BOT_TOKEN=...
 TELEGRAM_CHAT_ID=...</code></pre>
 <blockquote>
-<p><strong>All services are free tier.</strong> Resend free tier handles 100 emails/day. More than enough for your AI sales agent.</p>
+<p><strong>All services are free tier.</strong> Resend free tier: 100 emails/day, but only to your own email (see note above).</p>
 </blockquote>
 <h3 id="d-test-everything-locally-10-min">3D: Test Everything Locally (10 min)</h3>
 <p>First, verify all services are connected before testing end-to-end:</p>
@@ -749,7 +785,7 @@ Report which services are working and which need fixing.</code></pre>
 <li>Click the chat bubble</li>
 <li>Say: “I need help with my GTM strategy”</li>
 <li>Answer the intake questions naturally</li>
-<li>Provide your email address (use the email you signed up with on Resend — free tier only sends to your own email)</li>
+<li>Provide your email address — <strong>use the email you signed up with on Resend</strong> (remember: free tier only sends to yourself)</li>
 <li>Wait 30 seconds</li>
 </ol>
 <p><strong>Three things should happen:</strong></p>
@@ -767,7 +803,7 @@ Agent pipeline complete: { proposal: true, email: true, alerted: true }</code></
 <ul>
 <li>Check the terminal for error messages — they’ll tell you exactly which step failed</li>
 <li>Missing env var → check your <code>.env</code> file</li>
-<li>Email not arriving → check Resend dashboard; free tier only sends to your own email</li>
+<li>Email not arriving → <strong>most common cause:</strong> you entered an email that isn’t your Resend sign-up email. Free tier only delivers to yourself. Check the Resend dashboard for bounced/blocked sends</li>
 <li>Telegram not working → verify your bot token and chat ID from Day 1</li>
 <li>PDF generation error mentioning “cannot encode” → the AI-generated proposal has special characters (like ₹) that pdf-lib’s standard fonts can’t render. Tell Claude: “The PDF crashed on a special character. Add text sanitization to handle non-ASCII characters before rendering.”</li>
 </ul>
@@ -1216,6 +1252,20 @@ opt-in via the env var.</code></pre>
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="taking-it-live-beyond-the-bootcamp">Taking It Live — Beyond the Bootcamp</h2>
+<p>Everything today was built on free tiers — perfect for learning and testing. If you’re planning to use this as a real sales agent for your business, one thing needs upgrading: <strong>email</strong>.</p>
+<p><strong>Why:</strong> Resend’s free tier only lets you send to yourself (sandbox mode). Real visitors need to receive proposals at <em>their</em> email. That requires a verified custom domain.</p>
+<p><strong>What to do:</strong></p>
+<ol type="1">
+<li><strong>Upgrade Resend</strong> — the Pro plan ($20/month) gives you 5,000 emails/month and full analytics</li>
+<li><strong>Verify your domain</strong> — add your business domain (e.g., <code>yourdomain.com</code>) in Resend dashboard → add 3 DNS records (SPF, DKIM, DMARC) → takes ~5 minutes</li>
+<li><strong>Update your sender</strong> — change <code>onboarding@resend.dev</code> to something like <code>proposals@yourdomain.com</code> in your agent code</li>
+<li><strong>Update <code>.env</code> on Vercel</strong> — swap in your new Resend API key</li>
+</ol>
+<blockquote>
+<p>Once your domain is verified, proposals go to any email address. That’s when the agent actually starts working for you.</p>
+</blockquote>
 <hr />
 <h2 id="the-monday-morning-habit">The Monday Morning Habit</h2>
 <p>Your website is live. Your agent is running 24/7.</p>
