@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 48" fill="none">
+  <!-- Logo V2: Typographic logo — distinctive editorial lettering, no icon -->
+  <!-- "ANANYA" in bold serif with amber accent on the first A's crossbar -->
+  <text x="0" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" letter-spacing="6" fill="#faf9f7">ANANYA</text>
+  <!-- Amber crossbar accent on first A — replacing the standard crossbar with a bold amber stroke -->
+  <line x1="3" y1="22" x2="22" y2="22" stroke="#d4920a" stroke-width="3" stroke-linecap="square"/>
+  <!-- Period as brand punctuation -->
+  <rect x="220" y="25" width="6" height="6" fill="#d4920a"/>
+  <!-- Subtitle line -->
+  <line x1="236" y1="28" x2="260" y2="28" stroke="#888899" stroke-width="1"/>
+  <!-- "DASH" in mono, vertically offset -->
+  <text x="268" y="32" font-family="'Courier New', monospace" font-size="10" letter-spacing="3" fill="#888899">DASH</text>
+</svg>

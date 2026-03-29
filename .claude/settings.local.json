@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s -X POST http://localhost:3000/api/chat -H \"Content-Type: application/json\" -d '{\"\"\"\"message\"\"\"\":\"\"\"\"What does Ananya do?\"\"\"\"}')",
+      "Bash(node server.js)",
+      "Bash(tasklist /FI \"IMAGENAME eq node.exe\" /FO CSV)",
+      "Bash(curl -s -X POST http://localhost:3000/api/chat -H \"Content-Type: application/json\" -d '{\"\"\"\"message\"\"\"\":\"\"\"\"What does Ananya do?\"\"\"\",\"\"\"\"mode\"\"\"\":\"\"\"\"qa\"\"\"\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/api/chat -H \"Content-Type: application/json\" -d \"{\"\"message\"\":\"\"I''''d like to get a proposal.\"\",\"\"mode\"\":\"\"intake\"\"}\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s -X POST http://localhost:3000/api/chat -H 'Content-Type: application/json' -d \"{message:I''''d like to get a proposal.,mode:intake}\")",
+      "Bash(node -e \":*)",
+      "Bash(curl:*)",
+      "Bash(cp ../reference/api/generate-proposal.js api/generate-proposal.js)",
+      "Bash(cp ../reference/vercel.json vercel.json)",
+      "Bash(npm start:*)",
+      "Bash(node -e \"const express = require\\(''express''\\); const app = express\\(\\); app.listen\\(3001, \\(\\) => { console.log\\(''test server on 3001''\\); }\\);\")",
+      "Bash(gh repo:*)",
+      "Bash(git remote:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
