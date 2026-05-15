@@ -2,6 +2,19 @@
   "functions": {
     "api/generate-proposal.js": {
       "maxDuration": 60
+    },
+    "api/style-architect.js": {
+      "maxDuration": 60
+    },
+    "api/analyze-photos.js": {
+      "maxDuration": 60
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/ArchitectYourPresence.html",
+      "permanent": false
+    }
+  ]
 }
