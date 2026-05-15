@@ -41,27 +41,91 @@
     <div class="hero__bg">
       <div class="hero__grid"></div>
     </div>
-    <div class="hero__content">
-      <p class="hero__eyebrow">Transformation Consulting &amp; Leadership Coaching</p>
-      <h1 class="hero__headline">Your transformation has data. It needs a <em>narrative.</em></h1>
-      <p class="hero__sub">I turn enterprise complexity into structured clarity — for organisations navigating AI transformation, and for leaders navigating what comes next.</p>
-      <div class="hero__actions">
-        <a href="#cta" class="btn btn--primary">Book a Clarity Call <span class="btn__arrow">&rarr;</span></a>
-        <a href="#services" class="btn btn--ghost">See How I Work</a>
+    <div class="hero__content hero__content--split">
+      <div class="hero__text">
+        <p class="hero__eyebrow">Transformation Consulting &amp; Leadership Coaching</p>
+        <h1 class="hero__headline">Your transformation has data. It needs a <em>narrative.</em></h1>
+        <p class="hero__sub">I turn enterprise complexity into structured clarity — for organisations navigating AI transformation, and for leaders navigating what comes next.</p>
+        <div class="hero__actions">
+          <a href="#cta" class="btn btn--primary">Book a Clarity Call <span class="btn__arrow">&rarr;</span></a>
+          <a href="#services" class="btn btn--ghost">See How I Work</a>
+        </div>
+        <div class="hero__stat-bar">
+          <div class="hero__stat">
+            <span class="hero__stat-number">15+</span>
+            <span class="hero__stat-label">Years at Tata Steel</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">5</span>
+            <span class="hero__stat-label">Functional Domains</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-number">ICF</span>
+            <span class="hero__stat-label">Trained Coach</span>
+          </div>
+        </div>
       </div>
-      <div class="hero__stat-bar">
-        <div class="hero__stat">
-          <span class="hero__stat-number">15+</span>
-          <span class="hero__stat-label">Years at Tata Steel</span>
-        </div>
-        <div class="hero__stat">
-          <span class="hero__stat-number">5</span>
-          <span class="hero__stat-label">Functional Domains</span>
-        </div>
-        <div class="hero__stat">
-          <span class="hero__stat-number">ICF</span>
-          <span class="hero__stat-label">Certified Coach</span>
-        </div>
+      <div class="hero__visual">
+        <svg class="hero__illustration" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Outer ring — complexity -->
+          <circle cx="240" cy="240" r="200" stroke="#2a2a33" stroke-width="1" opacity="0.6"/>
+          <circle cx="240" cy="240" r="160" stroke="#2a2a33" stroke-width="1" opacity="0.4"/>
+          <circle cx="240" cy="240" r="120" stroke="#2a2a33" stroke-width="1" opacity="0.3"/>
+
+          <!-- Transformation paths — complexity flowing into clarity -->
+          <path d="M80 360 Q160 280 240 240 Q320 200 400 120" stroke="#d4920a" stroke-width="2" stroke-linecap="round" opacity="0.7">
+            <animate attributeName="stroke-dasharray" from="0 600" to="600 0" dur="2s" fill="freeze"/>
+          </path>
+          <path d="M60 280 Q160 240 240 240 Q320 240 420 200" stroke="#e0a020" stroke-width="1.5" stroke-linecap="round" opacity="0.4">
+            <animate attributeName="stroke-dasharray" from="0 600" to="600 0" dur="2.5s" fill="freeze"/>
+          </path>
+          <path d="M100 400 Q180 320 240 240 Q300 160 380 80" stroke="#d4920a" stroke-width="1" stroke-linecap="round" opacity="0.3">
+            <animate attributeName="stroke-dasharray" from="0 600" to="600 0" dur="3s" fill="freeze"/>
+          </path>
+
+          <!-- Node cluster — scattered data points (left/bottom) -->
+          <circle cx="95" cy="350" r="4" fill="#5c5c6e" opacity="0.6"/>
+          <circle cx="120" cy="380" r="3" fill="#5c5c6e" opacity="0.5"/>
+          <circle cx="70" cy="320" r="3.5" fill="#5c5c6e" opacity="0.4"/>
+          <circle cx="140" cy="340" r="2.5" fill="#5c5c6e" opacity="0.5"/>
+          <circle cx="85" cy="390" r="3" fill="#5c5c6e" opacity="0.3"/>
+          <circle cx="110" cy="310" r="2" fill="#5c5c6e" opacity="0.4"/>
+          <circle cx="60" cy="370" r="2.5" fill="#5c5c6e" opacity="0.3"/>
+          <circle cx="150" cy="370" r="2" fill="#5c5c6e" opacity="0.4"/>
+
+          <!-- Centre node — the transformation point -->
+          <circle cx="240" cy="240" r="18" fill="#141418" stroke="#d4920a" stroke-width="2"/>
+          <circle cx="240" cy="240" r="6" fill="#d4920a" opacity="0.9"/>
+
+          <!-- Structured output nodes (right/top) — clarity -->
+          <rect x="370" y="100" width="40" height="8" rx="2" fill="#d4920a" opacity="0.7"/>
+          <rect x="370" y="116" width="32" height="8" rx="2" fill="#e0a020" opacity="0.5"/>
+          <rect x="370" y="132" width="36" height="8" rx="2" fill="#d4920a" opacity="0.4"/>
+          <rect x="370" y="148" width="28" height="8" rx="2" fill="#e0a020" opacity="0.3"/>
+
+          <!-- Connecting lines from centre to output -->
+          <line x1="258" y1="232" x2="368" y2="104" stroke="#d4920a" stroke-width="1" opacity="0.3" stroke-dasharray="4 4"/>
+          <line x1="258" y1="236" x2="368" y2="120" stroke="#d4920a" stroke-width="1" opacity="0.2" stroke-dasharray="4 4"/>
+          <line x1="258" y1="240" x2="368" y2="136" stroke="#d4920a" stroke-width="1" opacity="0.2" stroke-dasharray="4 4"/>
+
+          <!-- Scattered data lines (left) — raw input -->
+          <line x1="50" y1="200" x2="90" y2="195" stroke="#5c5c6e" stroke-width="1" opacity="0.3"/>
+          <line x1="60" y1="220" x2="100" y2="230" stroke="#5c5c6e" stroke-width="1" opacity="0.2"/>
+          <line x1="55" y1="250" x2="95" y2="240" stroke="#5c5c6e" stroke-width="1" opacity="0.25"/>
+          <line x1="65" y1="270" x2="110" y2="265" stroke="#5c5c6e" stroke-width="1" opacity="0.2"/>
+
+          <!-- Pulse animation on centre node -->
+          <circle cx="240" cy="240" r="18" fill="none" stroke="#d4920a" stroke-width="1" opacity="0">
+            <animate attributeName="r" values="18;40;50" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.4;0.1;0" dur="3s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Label: DATA (bottom-left) -->
+          <text x="65" y="420" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="3" fill="#5c5c6e" opacity="0.5">DATA</text>
+
+          <!-- Label: NARRATIVE (top-right) -->
+          <text x="355" y="85" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="3" fill="#d4920a" opacity="0.6">NARRATIVE</text>
+        </svg>
       </div>
     </div>
   </section>
@@ -235,7 +299,7 @@
         </div>
         <div class="proof__item">
           <span class="proof__number">ICF</span>
-          <span class="proof__label">Certified Coaching<br>Methodology</span>
+          <span class="proof__label">Trained Coaching<br>Methodology</span>
         </div>
         <div class="proof__item">
           <span class="proof__number">One IT</span>
@@ -296,7 +360,7 @@
           </div>
         </div>
 
-        <form class="contact__form reveal" id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
+        <form class="contact__form reveal" id="contactForm">
           <div class="form-row">
             <div class="form-group">
               <label for="name">Your Name</label>
@@ -460,16 +524,36 @@
     revealElements.forEach(el => revealObserver.observe(el));
 
     // --- Form handling ---
-    // Form submits via Formspree action attribute.
-    // Replace "your-form-id" in the form action with your actual Formspree endpoint.
-    // To test locally, uncomment the block below:
-    /*
     const form = document.getElementById('contactForm');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Form configured! Replace the Formspree endpoint in the form action attribute to enable submissions.');
-    });
-    */
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        const ogText = btn.innerHTML;
+        btn.innerHTML = 'Sending...';
+        btn.disabled = true;
+
+        try {
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData.entries());
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          if(res.ok) {
+            alert("Thank you! Your message has been sent. I'll be in touch within 24 hours.");
+            e.target.reset();
+          } else {
+            alert('Sorry, there was an error sending your message.');
+          }
+        } catch (err) {
+          alert('Sorry, there was an error sending your message.');
+        }
+        btn.innerHTML = ogText;
+        btn.disabled = false;
+      });
+    }
 
     // --- Smooth scroll for anchor links ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

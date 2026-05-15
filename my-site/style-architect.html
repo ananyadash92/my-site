@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Architect — Ananya Dash Image Coaching</title>
+  <meta name="description" content="Get a personalized style blueprint powered by AI. Tailored recommendations for your body type, skin tone, values, and professional goals.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-architect.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="ArchitectYourPresence.html" class="nav__logo" aria-label="Back to Image Coaching">
+        <svg viewBox="0 0 320 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;">
+          <text x="0" y="32" font-family="Georgia,'Times New Roman',serif" font-size="34" font-weight="700" letter-spacing="6" fill="#faf9f7">ANANYA</text>
+          <line x1="3" y1="22" x2="22" y2="22" stroke="#d4920a" stroke-width="3" stroke-linecap="square"/>
+          <rect x="220" y="25" width="6" height="6" fill="#d4920a"/>
+          <line x1="236" y1="28" x2="260" y2="28" stroke="#888899" stroke-width="1"/>
+          <text x="268" y="32" font-family="'Courier New',monospace" font-size="10" letter-spacing="3" fill="#888899">DASH</text>
+        </svg>
+      </a>
+      <ul class="nav__links">
+        <li><a href="ArchitectYourPresence.html">← Back to Image Coaching</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="sa-hero">
+    <div class="container">
+      <p class="sa-hero__eyebrow">AI-Powered Style Tool</p>
+      <h1 class="sa-hero__headline">Style <em>Architect</em></h1>
+      <p class="sa-hero__sub">Tell us about yourself, your values, and your goals — and our AI will craft a personalized style blueprint for every occasion in your professional life.</p>
+    </div>
+  </section>
+
+  <!-- WIZARD -->
+  <section class="sa-wizard" id="wizard">
+    <div class="container">
+      <!-- Progress Bar -->
+      <div class="wizard__progress">
+        <div class="wizard__progress-bar">
+          <div class="wizard__progress-fill" id="progressFill"></div>
+        </div>
+        <div class="wizard__steps">
+          <span class="wizard__step active" data-step="1">1. Identity</span>
+          <span class="wizard__step" data-step="2">2. Physical</span>
+          <span class="wizard__step" data-step="3">3. Context</span>
+          <span class="wizard__step" data-step="4">4. Photos</span>
+          <span class="wizard__step" data-step="5">5. Review</span>
+        </div>
+      </div>
+
+      <form id="styleForm" class="wizard__form">
+
+        <!-- STEP 1: Identity & Values -->
+        <div class="wizard__panel active" data-panel="1">
+          <h2>Identity & Values</h2>
+          <p class="wizard__panel-sub">Who are you, and who do you want to become?</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sa-name">Full Name *</label>
+              <input type="text" id="sa-name" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="sa-gender">Gender *</label>
+              <select id="sa-gender" name="gender" required>
+                <option value="" disabled selected>Select</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Non-binary">Non-binary</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sa-age">Age Range</label>
+              <select id="sa-age" name="ageRange">
+                <option value="" disabled selected>Select</option>
+                <option value="22-28">22–28</option>
+                <option value="29-35">29–35</option>
+                <option value="36-42">36–42</option>
+                <option value="43-50">43–50</option>
+                <option value="50+">50+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="sa-industry">Industry *</label>
+              <input type="text" id="sa-industry" name="industry" placeholder="e.g. Technology, Banking, Consulting" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sa-currentRole">Current Role *</label>
+              <input type="text" id="sa-currentRole" name="currentRole" placeholder="e.g. Senior Manager, HR" required>
+            </div>
+            <div class="form-group">
+              <label for="sa-targetRole">Target Role / Aspiration *</label>
+              <input type="text" id="sa-targetRole" name="targetRole" placeholder="e.g. VP of Operations, CXO" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Core Values (select 3-5) *</label>
+            <div class="values-grid" id="valuesGrid">
+              <button type="button" class="value-chip" data-value="Confidence">Confidence</button>
+              <button type="button" class="value-chip" data-value="Authority">Authority</button>
+              <button type="button" class="value-chip" data-value="Approachability">Approachability</button>
+              <button type="button" class="value-chip" data-value="Creativity">Creativity</button>
+              <button type="button" class="value-chip" data-value="Elegance">Elegance</button>
+              <button type="button" class="value-chip" data-value="Minimalism">Minimalism</button>
+              <button type="button" class="value-chip" data-value="Boldness">Boldness</button>
+              <button type="button" class="value-chip" data-value="Warmth">Warmth</button>
+              <button type="button" class="value-chip" data-value="Professionalism">Professionalism</button>
+              <button type="button" class="value-chip" data-value="Innovation">Innovation</button>
+              <button type="button" class="value-chip" data-value="Reliability">Reliability</button>
+              <button type="button" class="value-chip" data-value="Leadership">Leadership</button>
+            </div>
+          </div>
+
+          <div class="wizard__nav">
+            <span></span>
+            <button type="button" class="btn btn--primary wizard__next" data-next="2">Next: Physical Profile <span class="btn__arrow">&rarr;</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Physical Profile -->
+        <div class="wizard__panel" data-panel="2">
+          <h2>Physical Profile</h2>
+          <p class="wizard__panel-sub">Help us understand your body so we can recommend the most flattering styles.</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sa-bodyType">Body Type *</label>
+              <select id="sa-bodyType" name="bodyType" required>
+                <option value="" disabled selected>Select</option>
+                <option value="Apple (broader midsection)">Apple</option>
+                <option value="Pear (wider hips)">Pear</option>
+                <option value="Rectangle (balanced proportions)">Rectangle</option>
+                <option value="Hourglass (balanced bust/hips, smaller waist)">Hourglass</option>
+                <option value="Inverted Triangle (broader shoulders)">Inverted Triangle</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="sa-height">Height *</label>
+              <input type="text" id="sa-height" name="height" placeholder="e.g. 5'4 or 163 cm" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sa-weight">Weight Range</label>
+              <select id="sa-weight" name="weightRange">
+                <option value="" disabled selected>Select</option>
+                <option value="Under 50 kg">Under 50 kg</option>
+                <option value="50-60 kg">50–60 kg</option>
+                <option value="60-70 kg">60–70 kg</option>
+                <option value="70-80 kg">70–80 kg</option>
+                <option value="80-90 kg">80–90 kg</option>
+                <option value="90+ kg">90+ kg</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="sa-skinTone">Skin Tone *</label>
+              <div class="skin-tone-picker" id="skinTonePicker">
+                <button type="button" class="skin-swatch" data-tone="Fair" style="background:#FDEBD0" title="Fair"></button>
+                <button type="button" class="skin-swatch" data-tone="Light" style="background:#F5CBA7" title="Light"></button>
+                <button type="button" class="skin-swatch" data-tone="Medium" style="background:#E0A96D" title="Medium"></button>
+                <button type="button" class="skin-swatch" data-tone="Olive" style="background:#C9A86C" title="Olive"></button>
+                <button type="button" class="skin-swatch" data-tone="Tan" style="background:#B07D4B" title="Tan"></button>
+                <button type="button" class="skin-swatch" data-tone="Brown" style="background:#8B6914" title="Brown"></button>
+                <button type="button" class="skin-swatch" data-tone="Dark" style="background:#5C3317" title="Dark"></button>
+              </div>
+              <input type="hidden" id="sa-skinTone" name="skinTone">
+              <span class="skin-tone-label" id="skinToneLabel">Select your skin tone</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sa-hairColor">Hair Color</label>
+              <input type="text" id="sa-hairColor" name="hairColor" placeholder="e.g. Black, Brown, Grey">
+            </div>
+            <div class="form-group">
+              <label for="sa-hairType">Hair Type</label>
+              <select id="sa-hairType" name="hairType">
+                <option value="" disabled selected>Select</option>
+                <option value="Straight">Straight</option>
+                <option value="Wavy">Wavy</option>
+                <option value="Curly">Curly</option>
+                <option value="Coily">Coily</option>
+                <option value="Short/Cropped">Short / Cropped</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="wizard__nav">
+            <button type="button" class="btn btn--ghost wizard__prev" data-prev="1"><span>&larr;</span> Back</button>
+            <button type="button" class="btn btn--primary wizard__next" data-next="3">Next: Professional Context <span class="btn__arrow">&rarr;</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Professional Context -->
+        <div class="wizard__panel" data-panel="3">
+          <h2>Professional Context</h2>
+          <p class="wizard__panel-sub">Your environment shapes your style. Tell us about your professional world.</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sa-city">City *</label>
+              <input type="text" id="sa-city" name="city" placeholder="e.g. Mumbai, Bangalore, Delhi" required>
+            </div>
+            <div class="form-group">
+              <label for="sa-company">Company / Organization *</label>
+              <input type="text" id="sa-company" name="company" placeholder="e.g. Tata Steel, Infosys" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="sa-dressCode">Company Dress Code *</label>
+            <div class="dresscode-options" id="dressCodeOptions">
+              <button type="button" class="dresscode-chip" data-code="Formal (suits, ties)">🤵 Formal</button>
+              <button type="button" class="dresscode-chip" data-code="Business Casual">👔 Business Casual</button>
+              <button type="button" class="dresscode-chip" data-code="Smart Casual">👕 Smart Casual</button>
+              <button type="button" class="dresscode-chip" data-code="Creative / Flexible">🎨 Creative</button>
+            </div>
+            <input type="hidden" id="sa-dressCode" name="dressCode">
+          </div>
+
+          <div class="form-group">
+            <label for="sa-budget">Monthly Wardrobe Budget (₹) *</label>
+            <div class="budget-slider-wrap">
+              <input type="range" id="sa-budget" name="budget" min="2000" max="50000" step="1000" value="10000">
+              <span class="budget-display" id="budgetDisplay">₹10,000</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="sa-brands">Preferred Brands (comma separated)</label>
+            <input type="text" id="sa-brands" name="brands" placeholder="e.g. Zara, H&M, Allen Solly, Raymond, FabIndia">
+          </div>
+
+          <div class="wizard__nav">
+            <button type="button" class="btn btn--ghost wizard__prev" data-prev="2"><span>&larr;</span> Back</button>
+            <button type="button" class="btn btn--primary wizard__next" data-next="4">Next: Photos & LinkedIn <span class="btn__arrow">&rarr;</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Photo & Analysis -->
+        <div class="wizard__panel" data-panel="4">
+          <h2>Your Photo Analysis</h2>
+          <p class="wizard__panel-sub">Upload one clear, full-body photo — our AI will analyze your face shape, body type, and style profile.</p>
+
+          <div class="form-group">
+            <label>Full Body Photo *</label>
+            <div class="fullbody-upload-wrap">
+              <label class="fullbody-upload-slot" id="fullBodySlot">
+                <input type="file" accept="image/*" id="fullBodyInput">
+                <div class="fullbody-upload__inner">
+                  <div class="fullbody-upload__icon">📸</div>
+                  <div class="fullbody-upload__text">Click to upload your full-body photo</div>
+                  <div class="fullbody-upload__hint">Stand in good lighting, facing the camera. JPG/PNG recommended.</div>
+                </div>
+              </label>
+            </div>
+            <div id="fullBodyAnalysis" style="display:none; margin-top:1.5rem;"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="sa-bestDesc">Describe Your Best Look (optional)</label>
+            <textarea id="sa-bestDesc" name="bestLookDesc" placeholder="What were you wearing? What made you feel confident? Where was it?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="sa-worstDesc">Describe Your Worst Look (optional)</label>
+            <textarea id="sa-worstDesc" name="worstLookDesc" placeholder="What didn't work? What made you uncomfortable?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="sa-linkedin">LinkedIn Profile URL (optional)</label>
+            <input type="url" id="sa-linkedin" name="linkedinUrl" placeholder="https://linkedin.com/in/your-profile">
+          </div>
+
+          <div class="wizard__nav">
+            <button type="button" class="btn btn--ghost wizard__prev" data-prev="3"><span>&larr;</span> Back</button>
+            <button type="button" class="btn btn--primary wizard__next" data-next="5">Next: Review <span class="btn__arrow">&rarr;</span></button>
+          </div>
+        </div>
+
+        <!-- STEP 5: Review -->
+        <div class="wizard__panel" data-panel="5">
+          <h2>Review Your Profile</h2>
+          <p class="wizard__panel-sub">Confirm your details before we generate your personalized style blueprint.</p>
+
+          <div class="review-grid" id="reviewGrid">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="form-group">
+            <label for="sa-email">Email (to receive your results) *</label>
+            <input type="email" id="sa-email" name="email" placeholder="you@email.com" required>
+          </div>
+
+          <div class="wizard__nav">
+            <button type="button" class="btn btn--ghost wizard__prev" data-prev="4"><span>&larr;</span> Back</button>
+            <button type="submit" class="btn btn--primary btn--large" id="generateBtn">
+              ✨ Generate My Style Blueprint <span class="btn__arrow">&rarr;</span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- LOADING -->
+  <section class="sa-loading" id="loadingSection" style="display:none;">
+    <div class="container">
+      <div class="loading__content">
+        <div class="loading__spinner"></div>
+        <h2>Crafting your style blueprint...</h2>
+        <p>Our AI is analyzing your profile, values, and goals to create personalized recommendations for every occasion.</p>
+        <div class="loading__steps" id="loadingSteps">
+          <span class="loading__step active">Analyzing body type & skin tone...</span>
+          <span class="loading__step">Mapping values to visual identity...</span>
+          <span class="loading__step">Curating outfit recommendations...</span>
+          <span class="loading__step">Finalizing your blueprint...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="sa-results" id="resultsSection" style="display:none;">
+    <div class="container">
+      <div class="results__header">
+        <p class="sa-hero__eyebrow">Your Personalized Blueprint</p>
+        <h2 class="results__title">Style Blueprint for <span id="resultName"></span></h2>
+        <p class="results__summary" id="resultSummary"></p>
+      </div>
+
+      <!-- Color Palette -->
+      <div class="results__palette" id="resultPalette">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Photo / Style Profile Analysis (shown FIRST) -->
+      <div id="photoAnalysisResults" style="display:none;" class="style-profile-section">
+        <div class="style-profile-header">
+          <div class="style-profile-label">YOUR STYLE PROFILE</div>
+          <h3>What Works For <em>Your</em> Body &amp; Face</h3>
+          <p class="style-profile-intro">Based on your photo analysis, here's exactly what colours, prints, and silhouettes are designed for you.</p>
+        </div>
+        <div id="analysisCardsGrid"></div>
+      </div>
+
+      <!-- Occasion Cards -->
+      <div class="results__cards" id="resultCards">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="results__actions">
+        <button class="btn btn--primary" onclick="window.print()">🖨️ Print Blueprint</button>
+        <a href="#wizard" class="btn btn--ghost" onclick="resetForm()">Generate Another</a>
+        <a href="ArchitectYourPresence.html#contact" class="btn btn--primary">Book a Personal Consultation →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <span class="footer__tagline">Style Architect — Powered by Ananya Dash Image Coaching</span>
+        <ul class="footer__links">
+          <li><a href="ArchitectYourPresence.html">Image Coaching</a></li>
+          <li><a href="index.html">Main Site</a></li>
+          <li><a href="ArchitectYourPresence.html#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    // === STATE ===
+    let currentStep = 1;
+    let selectedValues = [];
+    let selectedSkinTone = '';
+    let selectedDressCode = '';
+    let photoAnalysis = null;   // single full-body photo analysis
+    let fullBodyPhoto = null;   // {dataUrl, base64, mimeType}
+
+    // === DOM ===
+    const form = document.getElementById('styleForm');
+    const panels = document.querySelectorAll('.wizard__panel');
+    const stepLabels = document.querySelectorAll('.wizard__step');
+    const progressFill = document.getElementById('progressFill');
+
+    // === NAVIGATION ===
+    function goToStep(step) {
+      currentStep = step;
+      panels.forEach(p => p.classList.toggle('active', +p.dataset.panel === step));
+      stepLabels.forEach(s => {
+        const sStep = +s.dataset.step;
+        s.classList.toggle('active', sStep === step);
+        s.classList.toggle('done', sStep < step);
+      });
+      progressFill.style.width = ((step - 1) / 4 * 100) + '%';
+      window.scrollTo({ top: document.getElementById('wizard').offsetTop - 80, behavior: 'smooth' });
+
+      if (step === 5) populateReview();
+    }
+
+    document.querySelectorAll('.wizard__next').forEach(btn => {
+      btn.addEventListener('click', () => goToStep(+btn.dataset.next));
+    });
+    document.querySelectorAll('.wizard__prev').forEach(btn => {
+      btn.addEventListener('click', () => goToStep(+btn.dataset.prev));
+    });
+
+    // === VALUES CHIPS ===
+    document.querySelectorAll('.value-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const val = chip.dataset.value;
+        if (chip.classList.contains('selected')) {
+          chip.classList.remove('selected');
+          selectedValues = selectedValues.filter(v => v !== val);
+        } else if (selectedValues.length < 5) {
+          chip.classList.add('selected');
+          selectedValues.push(val);
+        }
+      });
+    });
+
+    // === SKIN TONE PICKER ===
+    document.querySelectorAll('.skin-swatch').forEach(sw => {
+      sw.addEventListener('click', () => {
+        document.querySelectorAll('.skin-swatch').forEach(s => s.classList.remove('selected'));
+        sw.classList.add('selected');
+        selectedSkinTone = sw.dataset.tone;
+        document.getElementById('sa-skinTone').value = selectedSkinTone;
+        document.getElementById('skinToneLabel').textContent = selectedSkinTone;
+      });
+    });
+
+    // === DRESS CODE PICKER ===
+    document.querySelectorAll('.dresscode-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.dresscode-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        selectedDressCode = chip.dataset.code;
+        document.getElementById('sa-dressCode').value = selectedDressCode;
+      });
+    });
+
+    // === BUDGET SLIDER ===
+    const budgetSlider = document.getElementById('sa-budget');
+    const budgetDisplay = document.getElementById('budgetDisplay');
+    budgetSlider.addEventListener('input', () => {
+      budgetDisplay.textContent = '₹' + (+budgetSlider.value).toLocaleString('en-IN');
+    });
+
+    // === FULL BODY PHOTO UPLOAD + ANALYSIS ===
+    const fullBodyInput = document.getElementById('fullBodyInput');
+    const fullBodySlot  = document.getElementById('fullBodySlot');
+    const fullBodyAnalysisDiv = document.getElementById('fullBodyAnalysis');
+
+    fullBodyInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target.result;
+        const base64  = dataUrl.split(',')[1];
+        const mimeType = file.type || 'image/jpeg';
+        fullBodyPhoto = { dataUrl, base64, mimeType };
+
+        // Update slot to show preview
+        fullBodySlot.style.backgroundImage = `url(${dataUrl})`;
+        fullBodySlot.style.backgroundSize = 'cover';
+        fullBodySlot.style.backgroundPosition = 'center top';
+        fullBodySlot.querySelector('.fullbody-upload__inner').innerHTML =
+          `<div style="font-size:2rem">✓</div><div style="font-size:0.85rem;color:#fff;background:rgba(0,0,0,0.6);padding:4px 10px;border-radius:4px;">Photo uploaded</div>`;
+
+        // Show loading
+        fullBodyAnalysisDiv.style.display = 'block';
+        fullBodyAnalysisDiv.innerHTML = `
+          <div class="analysis-card">
+            <img src="${dataUrl}" class="analysis-card__photo" alt="Your photo" style="max-height:260px;object-fit:cover;object-position:top;">
+            <div class="analysis-card__loading">
+              <div class="loading__spinner"></div>
+              <p>Analyzing your photo — face shape, body type, skin tone...</p>
+            </div>
+          </div>`;
+
+        analyzeFullBodyPhoto(base64, mimeType, dataUrl);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    async function analyzeFullBodyPhoto(base64, mimeType, dataUrl) {
+      try {
+        const res = await fetch('/api/analyze-photos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imageBase64: base64, mimeType })
+        });
+        const data = await res.json();
+        if (data.success && data.analysis) {
+          photoAnalysis = data.analysis;
+          renderFullBodyAnalysis(data.analysis, dataUrl);
+        } else {
+          fullBodyAnalysisDiv.innerHTML = `<div class="analysis-card"><div class="analysis-card__content"><p style="color:var(--muted)">Analysis unavailable — but don't worry, your style blueprint will still be generated from your other inputs.</p></div></div>`;
+        }
+      } catch(err) {
+        fullBodyAnalysisDiv.innerHTML = `<div class="analysis-card"><div class="analysis-card__content"><p style="color:var(--muted)">Could not analyze photo. Your blueprint will still be generated.</p></div></div>`;
+      }
+    }
+
+    function renderFullBodyAnalysis(a, dataUrl) {
+      fullBodyAnalysisDiv.innerHTML = `
+        <div class="fullbody-analysis-card">
+          <div class="fullbody-analysis-card__photo">
+            <img src="${dataUrl}" alt="Your photo">
+          </div>
+          <div class="fullbody-analysis-card__results">
+            <div class="analysis-card__title">✨ AI Photo Analysis</div>
+            <div class="analysis-result-grid">
+              <div class="analysis-result-item">
+                <div class="analysis-result-icon">🔷</div>
+                <div>
+                  <div class="analysis-item__label">Face Shape</div>
+                  <div class="analysis-item__value">${a.face_shape || '—'}</div>
+                </div>
+              </div>
+              <div class="analysis-result-item">
+                <div class="analysis-result-icon">👤</div>
+                <div>
+                  <div class="analysis-item__label">Body Type</div>
+                  <div class="analysis-item__value">${a.body_type || '—'}</div>
+                </div>
+              </div>
+              <div class="analysis-result-item">
+                <div class="analysis-result-icon">🎨</div>
+                <div>
+                  <div class="analysis-item__label">Skin Tone</div>
+                  <div class="analysis-item__value">${a.skin_tone || '—'}</div>
+                </div>
+              </div>
+              <div class="analysis-result-item">
+                <div class="analysis-result-icon">💇</div>
+                <div>
+                  <div class="analysis-item__label">Hair</div>
+                  <div class="analysis-item__value">${a.hair || '—'}</div>
+                </div>
+              </div>
+              <div class="analysis-result-item">
+                <div class="analysis-result-icon">🧍</div>
+                <div>
+                  <div class="analysis-item__label">Posture</div>
+                  <div class="analysis-item__value">${a.posture || '—'}</div>
+                </div>
+              </div>
+              <div class="analysis-result-item">
+                <div class="analysis-result-icon">👗</div>
+                <div>
+                  <div class="analysis-item__label">Current Style</div>
+                  <div class="analysis-item__value">${a.current_style || '—'}</div>
+                </div>
+              </div>
+            </div>
+            <div class="analysis-item" style="margin-top:1rem;">
+              <div class="analysis-item__label">Visual Strengths</div>
+              <div class="analysis-tags">${(a.strengths||[]).map(s=>`<span class="analysis-tag">${s}</span>`).join('')}</div>
+            </div>
+            <div class="analysis-item" style="margin-top:0.75rem;">
+              <div class="analysis-item__label">Enhance</div>
+              <div class="analysis-tags">${(a.areas_to_enhance||[]).map(s=>`<span class="analysis-tag analysis-tag--enhance">${s}</span>`).join('')}</div>
+            </div>
+            <div class="analysis-item" style="margin-top:0.75rem;">
+              <div class="analysis-item__label">💡 Hairstyle Tips</div>
+              <div class="analysis-item__value">${a.hairstyle_tips || '—'}</div>
+            </div>
+            <div class="analysis-item" style="margin-top:0.5rem;">
+              <div class="analysis-item__label">🎨 Color Advice</div>
+              <div class="analysis-item__value">${a.color_advice || '—'}</div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // === REVIEW ===
+    function populateReview() {
+      const grid = document.getElementById('reviewGrid');
+      const items = [
+        ['Name', document.getElementById('sa-name').value],
+        ['Gender', document.getElementById('sa-gender').value],
+        ['Values', selectedValues.join(', ')],
+        ['Current Role', document.getElementById('sa-currentRole').value],
+        ['Target Role', document.getElementById('sa-targetRole').value],
+        ['Industry', document.getElementById('sa-industry').value],
+        ['Body Type', document.getElementById('sa-bodyType').value],
+        ['Height', document.getElementById('sa-height').value],
+        ['Skin Tone', selectedSkinTone],
+        ['City', document.getElementById('sa-city').value],
+        ['Company', document.getElementById('sa-company').value],
+        ['Dress Code', selectedDressCode],
+        ['Budget', budgetDisplay.textContent],
+        ['Brands', document.getElementById('sa-brands').value || 'No preference'],
+      ];
+      grid.innerHTML = items.map(([k, v]) =>
+        `<div class="review-item"><span class="review-label">${k}</span><span class="review-value">${v || '—'}</span></div>`
+      ).join('');
+    }
+
+    // === FORM SUBMIT ===
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        name: document.getElementById('sa-name').value,
+        gender: document.getElementById('sa-gender').value,
+        ageRange: document.getElementById('sa-age').value,
+        industry: document.getElementById('sa-industry').value,
+        currentRole: document.getElementById('sa-currentRole').value,
+        targetRole: document.getElementById('sa-targetRole').value,
+        values: selectedValues,
+        bodyType: document.getElementById('sa-bodyType').value,
+        height: document.getElementById('sa-height').value,
+        weightRange: document.getElementById('sa-weight').value,
+        skinTone: selectedSkinTone,
+        hairColor: document.getElementById('sa-hairColor').value,
+        hairType: document.getElementById('sa-hairType').value,
+        city: document.getElementById('sa-city').value,
+        company: document.getElementById('sa-company').value,
+        dressCode: selectedDressCode,
+        budget: budgetSlider.value,
+        brands: document.getElementById('sa-brands').value,
+        bestLookDesc: document.getElementById('sa-bestDesc').value,
+        worstLookDesc: document.getElementById('sa-worstDesc').value,
+        linkedinUrl: document.getElementById('sa-linkedin').value,
+        email: document.getElementById('sa-email').value,
+      };
+
+      // Show loading
+      document.querySelector('.sa-wizard').style.display = 'none';
+      const loading = document.getElementById('loadingSection');
+      loading.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Animate loading steps
+      const steps = document.querySelectorAll('.loading__step');
+      let si = 0;
+      const stepInterval = setInterval(() => {
+        si++;
+        if (si < steps.length) {
+          steps[si - 1].classList.add('done');
+          steps[si].classList.add('active');
+        }
+      }, 3000);
+
+      // Enrich form data with single photo analysis
+      if (photoAnalysis) {
+        formData.photoAnalysis = `Face Shape: ${photoAnalysis.face_shape||''} | Body Type: ${photoAnalysis.body_type||''} | Skin Tone: ${photoAnalysis.skin_tone||''} | Hair: ${photoAnalysis.hair||''} | Posture: ${photoAnalysis.posture||''} | Strengths: ${(photoAnalysis.strengths||[]).join(', ')} | Enhance: ${(photoAnalysis.areas_to_enhance||[]).join(', ')}`;
+        // Also set body type and skin tone from photo analysis if not already set by user
+        if (!formData.bodyType && photoAnalysis.body_type) formData.bodyType = photoAnalysis.body_type.split('—')[0].trim();
+        if (!formData.skinTone && photoAnalysis.skin_tone) formData.skinTone = photoAnalysis.skin_tone.split('—')[0].trim();
+      }
+
+      try {
+        const res = await fetch('/api/style-architect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ formData })
+        });
+        const data = await res.json();
+        clearInterval(stepInterval);
+
+        if (data.success && data.recommendations) {
+          renderResults(formData.name, data.recommendations);
+        } else {
+          alert('Error generating recommendations: ' + (data.error || 'Please try again.'));
+          document.querySelector('.sa-wizard').style.display = 'block';
+          loading.style.display = 'none';
+        }
+      } catch (err) {
+        clearInterval(stepInterval);
+        alert('Connection error. Is the server running?');
+        document.querySelector('.sa-wizard').style.display = 'block';
+        loading.style.display = 'none';
+      }
+    });
+
+    // === RENDER RESULTS ===
+    function renderResults(name, rec) {
+      document.getElementById('loadingSection').style.display = 'none';
+      const results = document.getElementById('resultsSection');
+      results.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      document.getElementById('resultName').textContent = name;
+      document.getElementById('resultSummary').textContent = rec.client_summary || '';
+
+      // Show Style Profile Analysis FIRST — before occasion cards
+      const analysisSection = document.getElementById('photoAnalysisResults');
+      if (photoAnalysis && fullBodyPhoto) {
+        analysisSection.style.display = 'block';
+        document.getElementById('analysisCardsGrid').innerHTML = `
+          <div class="style-profile-card">
+            <div class="style-profile-photo">
+              <img src="${fullBodyPhoto.dataUrl}" alt="Your photo">
+            </div>
+            <div class="style-profile-body">
+
+              <div class="spc-row">
+                <div class="spc-block">
+                  <div class="spc-icon">🔷</div>
+                  <div class="spc-label">Face Shape</div>
+                  <div class="spc-value">${photoAnalysis.face_shape || '—'}</div>
+                </div>
+                <div class="spc-block">
+                  <div class="spc-icon">👤</div>
+                  <div class="spc-label">Body Type</div>
+                  <div class="spc-value">${photoAnalysis.body_type || '—'}</div>
+                </div>
+                <div class="spc-block">
+                  <div class="spc-icon">🎨</div>
+                  <div class="spc-label">Skin Tone</div>
+                  <div class="spc-value">${photoAnalysis.skin_tone || '—'}</div>
+                </div>
+              </div>
+
+              <div class="spc-section">
+                <div class="spc-section-title">🎨 Your Colour Palette</div>
+                <div class="spc-text">${photoAnalysis.color_advice || '—'}</div>
+              </div>
+
+              <div class="spc-section">
+                <div class="spc-section-title">👗 Styles &amp; Silhouettes That Suit You</div>
+                <div class="spc-text">${(photoAnalysis.strengths || []).join(' · ')}</div>
+              </div>
+
+              <div class="spc-section">
+                <div class="spc-section-title">💡 Hairstyle Recommendations</div>
+                <div class="spc-text">${photoAnalysis.hairstyle_tips || '—'}</div>
+              </div>
+
+              <div class="spc-section">
+                <div class="spc-section-title">✨ Areas to Elevate</div>
+                <div class="spc-tags">${(photoAnalysis.areas_to_enhance || []).map(s => `<span class="analysis-tag analysis-tag--enhance">${s}</span>`).join('')}</div>
+              </div>
+
+              <div class="spc-section">
+                <div class="spc-section-title">📌 Current Style Note</div>
+                <div class="spc-text">${photoAnalysis.current_style || '—'}</div>
+              </div>
+
+            </div>
+          </div>`;
+      } else {
+        analysisSection.style.display = 'none';
+      }
+
+      // Color palette
+      const palette = document.getElementById('resultPalette');
+      if (rec.color_palette) {
+        palette.innerHTML = `
+          <h3>Your Color Palette</h3>
+          <div class="palette-row">
+            <div class="palette-group">
+              <span class="palette-label">Primary Colors</span>
+              <div class="palette-swatches">${(rec.color_palette.primary || []).map(c => `<span class="palette-swatch" style="background:${c}" title="${c}">${c}</span>`).join('')}</div>
+            </div>
+            <div class="palette-group">
+              <span class="palette-label">Accent Colors</span>
+              <div class="palette-swatches">${(rec.color_palette.accent || []).map(c => `<span class="palette-swatch" style="background:${c}" title="${c}">${c}</span>`).join('')}</div>
+            </div>
+            <div class="palette-group">
+              <span class="palette-label">Colors to Avoid</span>
+              <div class="palette-swatches">${(rec.color_palette.avoid || []).map(c => `<span class="palette-swatch palette-swatch--avoid" style="background:${c}" title="${c}">${c}</span>`).join('')}</div>
+            </div>
+          </div>`;
+      }
+
+      // Occasion cards — NO sketches, text only
+      const cards = document.getElementById('resultCards');
+      cards.innerHTML = (rec.occasions || []).map((occ, idx) => {
+        return `
+        <div class="occasion-card">
+          <div class="occasion-card__header">
+            <span class="occasion-card__icon">${occ.icon || '👔'}</span>
+            <h3>${occ.occasion}</h3>
+          </div>
+          <div class="occasion-card__body occasion-card__body--full">
+            <div class="occasion-detail"><span class="detail-label">💇 Hairstyle</span><p>${occ.hairstyle}</p></div>
+            <div class="occasion-detail"><span class="detail-label">💄 Makeup / Grooming</span><p>${occ.makeup}</p></div>
+            <div class="occasion-detail"><span class="detail-label">👗 Apparel</span><p>${occ.apparel}</p></div>
+            <div class="occasion-detail"><span class="detail-label">🎨 Print / Pattern</span><p>${occ.print_pattern}</p></div>
+            <div class="occasion-detail"><span class="detail-label">👞 Shoes</span><p>${occ.shoes}</p></div>
+            <div class="occasion-detail"><span class="detail-label">💎 Accessories</span><p>${occ.accessories}</p></div>
+            <div class="occasion-detail"><span class="detail-label">🎨 Color Combos</span><p>${occ.color_combinations}</p></div>
+            <div class="occasion-tips">
+              <div class="tips-do"><strong>✅ Do's</strong><ul>${(occ.dos || []).map(d => `<li>${d}</li>`).join('')}</ul></div>
+              <div class="tips-dont"><strong>❌ Don'ts</strong><ul>${(occ.donts || []).map(d => `<li>${d}</li>`).join('')}</ul></div>
+            </div>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    // === RESET ===
+    window.resetForm = function() {
+      document.getElementById('resultsSection').style.display = 'none';
+      document.getElementById('photoAnalysisResults').style.display = 'none';
+      document.querySelector('.sa-wizard').style.display = 'block';
+      form.reset();
+      selectedValues = [];
+      selectedSkinTone = '';
+      selectedDressCode = '';
+      photoAnalysis = null;
+      fullBodyPhoto = null;
+      const slot = document.getElementById('fullBodySlot');
+      slot.style.backgroundImage = '';
+      slot.querySelector('.fullbody-upload__inner').innerHTML = `
+        <div class="fullbody-upload__icon">📸</div>
+        <div class="fullbody-upload__text">Click to upload your full-body photo</div>
+        <div class="fullbody-upload__hint">Stand in good lighting, facing the camera. JPG/PNG recommended.</div>`;
+      document.getElementById('fullBodyAnalysis').style.display = 'none';
+      document.getElementById('fullBodyAnalysis').innerHTML = '';
+      document.querySelectorAll('.value-chip, .skin-swatch, .dresscode-chip').forEach(c => c.classList.remove('selected'));
+      budgetDisplay.textContent = '₹10,000';
+      document.getElementById('skinToneLabel').textContent = 'Select your skin tone';
+      goToStep(1);
+    };
+
+    // === NAV SCROLL ===
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+    });
+  })();
+  </script>
+</body>
+</html>
